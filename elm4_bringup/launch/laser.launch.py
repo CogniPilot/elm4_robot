@@ -42,14 +42,14 @@ def generate_launch_description():
         parameters=[
             {'product_name': 'LDLiDAR_STL27L'},
             {'topic_name': 'scan'},
-            {'frame_id': 'base_laser'},
-            {'port_name': '/dev/ttymcx0'},
+            {'frame_id': 'elm4/base_laser'},
+            {'port_name': '/dev/ttymxc2'},
             {'port_baudrate': 921600},
             {'laser_scan_dir': False},
             {'enable_angle_crop_func': False},
             {'angle_crop_min': 0.0},
             {'angle_crop_max': 0.0}],
-        condition=launch.conditions.IfCondition(launch.substitutions.LaunchConfiguration("stl27l"))
+        condition=IfCondition(LaunchConfiguration("stl27l"))
     )
 
     rf2o_odom_node = Node(
@@ -61,12 +61,12 @@ def generate_launch_description():
             'laser_scan_topic' : '/scan',
             'odom_topic' : '/odom_rf2o',
             'publish_tf' : LaunchConfiguration('rf2o_tf'),
-            'base_frame_id' : 'base_link',
+            'base_frame_id' : 'baselink',
             'odom_frame_id' : 'odom',
             'init_pose_from_topic' : '',
             'freq' : 20.0,
             'use_sim_time': LaunchConfiguration('use_sim_time')}],
-        condition=launch.conditions.IfCondition(launch.substitutions.LaunchConfiguration("rf2o"))
+        condition=IfCondition(LaunchConfiguration("rf2o"))
     )
 
     stl27l_tf_node = Node(
@@ -78,14 +78,14 @@ def generate_launch_description():
             '--x', '0.0', '--y', '0.0', '--z', '0.0',
             '--roll', '0.0', '--pitch', '0.0', '--yaw', '0.0',
             '--frame-id', 'elm4/base_laser', '--child-frame-id', 'baselink'],
-        condition=launch.conditions.IfCondition(launch.substitutions.LaunchConfiguration("stl27l_tf"))
+        condition=IfCondition(LaunchConfiguration("stl27l_tf"))
     )
 
 
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
     ld.add_action(stl27l_node)
-    ld.add_action(rf2o_odom)
+    ld.add_action(rf2o_odom_node)
     ld.add_action(stl27l_tf_node)
     return ld
 

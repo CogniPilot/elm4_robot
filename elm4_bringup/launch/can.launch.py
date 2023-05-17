@@ -36,7 +36,7 @@ def generate_launch_description():
             {"joy_topic": "/joy"},
             {"cyphal_topic": "/CyphalTransmitFrame"},
             {"max_leds": 12}],
-        condition=launch.conditions.IfCondition(launch.substitutions.LaunchConfiguration("leds"))
+        condition=IfCondition(LaunchConfiguration("leds"))
     )
 
     opencyphal_send_node = Node(
@@ -47,7 +47,7 @@ def generate_launch_description():
         parameters=[
             {"cyphal_input_topic": "/CyphalTransmitFrame"},
             {"can_channel": "can1"}],
-        condition=launch.conditions.IfCondition(launch.substitutions.LaunchConfiguration("leds"))
+        condition=IfCondition(LaunchConfiguration("leds"))
     )
 
     vesc_can_control_node = Node(
@@ -62,7 +62,7 @@ def generate_launch_description():
             {"actuators_index_can": [0, 1, 2, 3]},
             {"actuators_pole_pair": [15, 15, 15, 15]},
             {"can_node_id_actuators": [119, 85, 73, 23]}],
-        condition=launch.conditions.IfCondition(launch.substitutions.LaunchConfiguration("vesc"))
+        condition=IfCondition(LaunchConfiguration("vesc"))
     )
 
     can_send_node = Node(
@@ -73,7 +73,7 @@ def generate_launch_description():
         parameters=[
             {"can_channel": "can0"},
             {"can_input_topic": "/can0_send"}],
-        condition=launch.conditions.IfCondition(launch.substitutions.LaunchConfiguration("vesc"))
+        condition=IfCondition(LaunchConfiguration("vesc"))
     )
 
     # Define LaunchDescription variable
