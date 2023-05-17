@@ -113,8 +113,8 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('synapse')),
         launch_arguments=[
             ('use_sim_time', LaunchConfiguration('use_sim_time')),
-            ('host', 192.0.2.2),
-            ('port', 4242)
+            ('host', '192.0.2.2'),
+            ('port', '4242')
         ]
     )
 
