@@ -20,6 +20,9 @@ ARGUMENTS = [
     DeclareLaunchArgument('vesc', default_value='true',
                           choices=['true', 'false'],
                           description='Run VESC can control')
+    DeclareLaunchArgument('joy_test', default_value='true',
+                          choices=['true', 'false'],
+                          description='Run Joy actuator test.')
 ]
 
 
@@ -75,6 +78,24 @@ def generate_launch_description():
             {"can_input_topic": "/can0_send"}],
         condition=IfCondition(LaunchConfiguration("vesc"))
     )
+    
+    joy_test_mixer_actuators_node = Node(
+        package='joy_test_mixer_actuators',
+        executable='joy_test_mixer_actuators_node',
+        name='joy_test_mixer_actuators_node0',
+        output='screen',
+        parameters=[
+            {"joy_scale": 100},
+            {"joy_input_topic": "/joy"},
+            {"actuators_output_topic": "/actuators"},
+            {"thrust_axes": 1},
+            {"yaw_axes": 3},
+            {"arm_button": 7},
+            {"disarm_button": 6},
+            {"mix_thrust": [1.0, 1.0, 1.0, 1.0]},
+            {"mix_yaw": [-1.0, 1.0, 1.0, -1.0]}],
+            condition=IfCondition(LaunchConfiguration("vesc"))
+    )
 
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
@@ -82,5 +103,6 @@ def generate_launch_description():
     ld.add_action(opencyphal_send_node)
     ld.add_action(vesc_can_control_node)
     ld.add_action(can_send_node)
+    ld.add_action(joy_test_mixer_actuators_node)
     return ld
 

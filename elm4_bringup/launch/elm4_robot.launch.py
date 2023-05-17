@@ -89,8 +89,9 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([can_launch]),
         condition=IfCondition(LaunchConfiguration('can')),
         launch_arguments=[
-            ('vesc', True),
-            ('led', True)
+            ('joy_test', 'true'),
+            ('vesc', 'true'),
+            ('led', 'true')
         ]
     )
 
@@ -100,10 +101,9 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('laser')),
         launch_arguments=[
             ('use_sim_time', LaunchConfiguration('use_sim_time')),
-            ('stl27l', True),
-            ('stl27l_tf', True),
-            ('rf2o', True),
-            ('rf2o_tf', True)
+            ('stl27l', 'true'),
+            ('rf2o', 'true'),
+            ('rf2o_tf', 'true')
         ]
     )
 
@@ -166,11 +166,10 @@ def generate_launch_description():
     ld.add_action(declare_map_yaml_cmd)
     ld.add_action(laser)
     ld.add_action(robot_description)
-    ld.add_action(leds_can)
-    ld.add_action(vesc_can_control)
-    ld.add_action(synapse_ros)
+    ld.add_action(can)
+    #ld.add_action(synapse_ros)
     ld.add_action(nav2)
-    ld.add_action(corti)
+    #ld.add_action(corti)
     ld.add_action(slam)
     ld.add_action(localization)
     return ld

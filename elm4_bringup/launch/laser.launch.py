@@ -86,6 +86,6 @@ def generate_launch_description():
     ld = LaunchDescription(ARGUMENTS)
     ld.add_action(stl27l_node)
     ld.add_action(rf2o_odom_node)
-    ld.add_action(stl27l_tf_node)
+    #ld.add_action(stl27l_tf_node)
     return ld
 
